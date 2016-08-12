@@ -1,4 +1,4 @@
-package br.com.pelisoli.githubapp.model;
+package br.com.pelisoli.githubapp.domain.model;
 
 import java.security.acl.Owner;
 

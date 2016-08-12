@@ -12,7 +12,7 @@ import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import java.util.List;
 
 import br.com.pelisoli.githubapp.R;
-import br.com.pelisoli.githubapp.model.Repository;
+import br.com.pelisoli.githubapp.domain.model.Repository;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

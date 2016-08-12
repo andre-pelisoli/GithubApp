@@ -2,7 +2,7 @@ package br.com.pelisoli.githubapp.presentation.search.repository;
 
 import java.util.List;
 
-import br.com.pelisoli.githubapp.model.Repository;
+import br.com.pelisoli.githubapp.domain.model.Repository;
 import br.com.pelisoli.githubapp.presentation.base.MvpPresenter;
 import br.com.pelisoli.githubapp.presentation.base.MvpView;
 

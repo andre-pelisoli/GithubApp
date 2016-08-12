@@ -1,4 +1,4 @@
-package br.com.pelisoli.githubapp.model;
+package br.com.pelisoli.githubapp.domain.model;
 
 /**
  * Created by pelisoli on 8/11/16.

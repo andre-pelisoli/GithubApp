@@ -11,7 +11,10 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "BASE_URL", "https://api.github.com"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -26,6 +29,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
