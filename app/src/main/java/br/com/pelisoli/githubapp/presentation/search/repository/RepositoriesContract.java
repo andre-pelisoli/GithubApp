@@ -12,9 +12,11 @@ import br.com.pelisoli.githubapp.presentation.base.MvpView;
 public interface RepositoriesContract {
 
     interface View extends MvpView {
-        void setProgressVisibility(boolean showProgress);
+        void showProgress(boolean showProgress);
 
         void showRepositoryList(List<Repository> repositoriesList);
+
+        void showError(String message);
     }
 
     interface Presenter extends MvpPresenter<View> {

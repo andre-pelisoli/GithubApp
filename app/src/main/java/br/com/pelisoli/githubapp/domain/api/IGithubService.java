@@ -12,7 +12,7 @@ import rx.Observable;
  */
 public interface IGithubService {
 
-    @GET("/users/{user-name}/repos")
+    @GET("/users/{username}/repos")
     Observable<List<Repository>> getUserRepos(@Path("username") String username);
 
 }

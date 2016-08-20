@@ -44,6 +44,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cpv_animAutostart="true"
-        app:cpv_indeterminate="true" />
+        app:cpv_indeterminate="true"
+        android:layout_below="@+id/searchBtn"
+        android:visibility="gone"/>
 
 </RelativeLayout>
