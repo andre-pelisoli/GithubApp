@@ -45,10 +45,10 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:id="@+id/user_image"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"/>
+                android:paddingBottom="@dimen/image_top_bottom_margin"
+                android:paddingTop="@dimen/image_top_bottom_margin"
+                android:paddingLeft="@dimen/image_right_left_margin"
+                android:paddingRight="@dimen/image_right_left_margin"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,8 +65,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_centerInParent="true"
         android:id="@+id/progress_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/progress_size"
+        android:layout_height="@dimen/progress_size"
         app:cpv_animAutostart="true"
         app:cpv_indeterminate="true"
         android:layout_below="@+id/searchBtn"
