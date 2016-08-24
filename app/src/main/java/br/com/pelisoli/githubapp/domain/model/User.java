@@ -1,22 +1,17 @@
 package br.com.pelisoli.githubapp.domain.model;
 
 /**
- * Created by pelisoli on 8/11/16.
+ * Created by pelisoli on 8/16/16.
  */
 public class User {
-    private String login;
 
     private Integer id;
 
-    private String avatarUrl;
+    private String login;
 
-    public String getLogin() {
-        return login;
-    }
+    private String avatar_url;
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+    private String name;
 
     public Integer getId() {
         return id;
@@ -26,11 +21,27 @@ public class User {
         this.id = id;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getLogin() {
+        return login;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

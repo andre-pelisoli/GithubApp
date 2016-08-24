@@ -4,15 +4,9 @@ public class Repository {
 
     private Integer id;
 
-    private Owner owner;
+    private User owner;
 
     private String name;
-
-//    private String pushedAt;
-//
-//    private String createdAt;
-//
-//    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -22,11 +16,11 @@ public class Repository {
         this.id = id;
     }
 
-    public Owner getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
@@ -38,27 +32,4 @@ public class Repository {
         this.name = name;
     }
 
-//    public String getPushedAt() {
-//        return pushedAt;
-//    }
-//
-//    public void setPushedAt(String pushedAt) {
-//        this.pushedAt = pushedAt;
-//    }
-//
-//    public String getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(String createdAt) {
-//        this.createdAt = createdAt;
-//    }
-//
-//    public String getUpdatedAt() {
-//        return updatedAt;
-//    }
-//
-//    public void setUpdatedAt(String updatedAt) {
-//        this.updatedAt = updatedAt;
-//    }
 }

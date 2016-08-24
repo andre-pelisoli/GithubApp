@@ -1,16 +1,14 @@
 package br.com.pelisoli.githubapp.presentation.search.repository;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.pelisoli.githubapp.R;
@@ -18,48 +16,54 @@ import br.com.pelisoli.githubapp.domain.api.GithubApi;
 import br.com.pelisoli.githubapp.domain.model.Repository;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class RepositoriesActivity extends AppCompatActivity implements RepositoriesContract.View {
-    @BindView(R.id.searchBtn)
-    Button btnSearch;
+/**
+ * Created by pelisoli on 8/21/16.
+ */
+public class RepositoriesActivity extends AppCompatActivity implements RepositoriesContract.View{
+    @BindView(R.id.recycler_repo)
+    RecyclerView mRecyclerView;
 
-    @BindView(R.id.searchEdt)
-    EditText searchEdt;
-
-    @BindView(R.id.progress_view)
-    CircularProgressView progress;
-
-    @BindView(R.id.recycler)
-    RecyclerView recyclerView;
-
-    RepositoriesContract.Presenter mPresenter;
+    @BindView(R.id.rep_progress_view)
+    CircularProgressView mProgress;
 
     RepositoriesAdapter mRepositoriesAdapter;
 
-    List<Repository> mRepositories = new ArrayList<>();
+    List<Repository> mRepositories = null;
+
+    String userName = "";
+
+    RepositoriesContract.Presenter mPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.repositories_activity);
+
         ButterKnife.bind(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            userName = bundle.getString("userName");
+        }
+
         mRepositoriesAdapter = new RepositoriesAdapter(mRepositories);
-        recyclerView.setAdapter(mRepositoriesAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mRepositoriesAdapter);
 
         mPresenter = new RepositoriesPresenter(GithubApi.getRetrofit());
         mPresenter.attachView(this);
+        mPresenter.searchRepository(userName);
 
     }
 
     @Override
     public void showProgress(boolean showProgress) {
-        if (showProgress) {
-            progress.setVisibility(View.VISIBLE);
-        }else {
-            progress.setVisibility(View.GONE);
+        if(showProgress){
+            mProgress.setVisibility(View.VISIBLE);
+        }else{
+            mProgress.setVisibility(View.GONE);
         }
     }
 
@@ -77,10 +81,5 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
-    }
-
-    @OnClick(R.id.searchBtn)
-    public void searchClick(){
-        mPresenter.searchRepository(searchEdt.getText().toString());
     }
 }
