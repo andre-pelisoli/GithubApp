@@ -16,7 +16,7 @@ public interface RepositoriesContract {
 
         void showRepositoryList(List<Repository> repositoriesList);
 
-        void showError(String message);
+        void showError();
     }
 
     interface Presenter extends MvpPresenter<View> {

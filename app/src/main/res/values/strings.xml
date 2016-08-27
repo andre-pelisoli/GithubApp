@@ -4,4 +4,8 @@
     <string name="search_button">Search</string>
     <string name="search_empty">Search field cannot be empty</string>
     <string name="repositories_head">Repositories</string>
+    <string name="dialog_info_header">Information</string>
+    <string name="ok">OK</string>
+    <string name="empty_field">Empty Field</string>
+    <string name="error">Something wrong has happened</string>
 </resources>

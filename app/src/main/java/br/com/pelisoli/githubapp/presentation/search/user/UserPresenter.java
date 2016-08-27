@@ -21,20 +21,29 @@ public class UserPresenter extends BasePresenter<UserContract.View>
     }
 
     @Override
-    public void searchUser(String user) {
+    public void searchUser(String userName) {
         getView().showProgress(true);
 
-        if (user != null) {
+        if (userName != null && !userName.isEmpty()) {
             addSubscription(mGithubService
-                    .getUser(user)
+                    .getUser(userName)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(user1 -> getView().showUser(user1),
-                            throwable -> Log.e(BuildConfig.LOG_TAG, "searchUser: " + throwable.getMessage()),
-                            () -> Log.i(BuildConfig.LOG_TAG, "searchUser: " + "Completed" )));
+                    .subscribe(
+                            user -> getView().showUser(user),
+
+                            throwable -> {
+                                Log.e(BuildConfig.LOG_TAG, "searchUser: " + throwable.getMessage());
+                                getView().showError();
+                            },
+
+                            () -> Log.i(BuildConfig.LOG_TAG, "searchUser: " + "Completed" )
+                    ));
         }else{
-            getView().showError("User cannot be empty");
+            getView().showEmptyFieldDialog();
         }
+
+        getView().showProgress(false);
     }
 
     @Override

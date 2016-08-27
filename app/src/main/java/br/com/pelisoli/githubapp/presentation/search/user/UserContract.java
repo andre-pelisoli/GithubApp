@@ -16,7 +16,9 @@ public interface UserContract {
 
         void showUser(User user);
 
-        void showError(String message);
+        void showEmptyFieldDialog();
+
+        void showError();
 
         void launchRepoScreen(String userName);
     }

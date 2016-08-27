@@ -33,16 +33,18 @@ public class RepositoriesPresenter extends BasePresenter<RepositoriesContract.Vi
                             repositories -> {
                                 getView().showRepositoryList(repositories);
                             },
+
                             throwable -> {
                                 Log.e(BuildConfig.LOG_TAG, "searchUser error: " + throwable.getMessage());
-                                getView().showError("Error");
+                                getView().showError();
                             },
+
                             () -> Log.i(BuildConfig.LOG_TAG, "searchUser: " + "onCompleted")
 
                     )
             );
         }else{
-            getView().showError("User cannot be empty");
+            getView().showError();
         }
 
         getView().showProgress(false);

@@ -2,6 +2,7 @@ package br.com.pelisoli.githubapp.presentation.search.repository;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import java.util.List;
 import br.com.pelisoli.githubapp.R;
 import br.com.pelisoli.githubapp.domain.api.GithubApi;
 import br.com.pelisoli.githubapp.domain.model.Repository;
+import br.com.pelisoli.githubapp.presentation.search.dialog.InfoDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -73,8 +75,9 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
     }
 
     @Override
-    public void showError(String message) {
-
+    public void showError() {
+        DialogFragment dialog = InfoDialog.newInstance(getString(R.string.error));
+        dialog.show(this.getSupportFragmentManager(), "InfoDialog");
     }
 
     @Override

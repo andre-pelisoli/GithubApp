@@ -2,6 +2,7 @@ package br.com.pelisoli.githubapp.presentation.search.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
@@ -16,6 +17,7 @@ import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import br.com.pelisoli.githubapp.R;
 import br.com.pelisoli.githubapp.domain.api.GithubApi;
 import br.com.pelisoli.githubapp.domain.model.User;
+import br.com.pelisoli.githubapp.presentation.search.dialog.InfoDialog;
 import br.com.pelisoli.githubapp.presentation.search.repository.RepositoriesActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,8 +87,16 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
     }
 
     @Override
-    public void showError(String message) {
+    public void showEmptyFieldDialog() {
+        DialogFragment dialog = InfoDialog.newInstance(getString(R.string.empty_field));
+        dialog.show(this.getSupportFragmentManager(), "InfoDialog");
 
+    }
+
+    @Override
+    public void showError() {
+        DialogFragment dialog = InfoDialog.newInstance(getString(R.string.error));
+        dialog.show(this.getSupportFragmentManager(), "InfoDialog");
     }
 
     @Override
