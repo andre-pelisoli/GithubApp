@@ -3,7 +3,7 @@ package br.com.pelisoli.githubapp.presentation.search.user;
 import android.util.Log;
 
 import br.com.pelisoli.githubapp.BuildConfig;
-import br.com.pelisoli.githubapp.domain.api.IGithubService;
+import br.com.pelisoli.githubapp.domain.api.GithubService;
 import br.com.pelisoli.githubapp.presentation.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -14,9 +14,9 @@ import rx.schedulers.Schedulers;
 public class UserPresenter extends BasePresenter<UserContract.View>
         implements UserContract.Presenter  {
 
-    IGithubService mGithubService;
+    GithubService mGithubService;
 
-    public UserPresenter(IGithubService githubService) {
+    public UserPresenter(GithubService githubService) {
         mGithubService = githubService;
     }
 

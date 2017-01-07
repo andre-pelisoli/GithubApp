@@ -11,7 +11,7 @@ import rx.Observable;
 /**
  * Created by pelisoli on 12/08/16.
  */
-public interface IGithubService {
+public interface GithubService {
 
     @GET("/users/{username}/repos")
     Observable<List<Repository>> getUserRepos(@Path("username") String userName);

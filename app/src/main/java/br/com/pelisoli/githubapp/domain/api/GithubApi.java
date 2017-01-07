@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class GithubApi {
 
-    private static IGithubService mIGithubService;
+    private static GithubService mIGithubService;
 
 
     private static Retrofit getApi(){
@@ -33,9 +33,9 @@ public class GithubApi {
         return retrofit.build();
     }
 
-    public static IGithubService getRetrofit(){
+    public static GithubService getRetrofit(){
         if(mIGithubService == null){
-            mIGithubService = getApi().create(IGithubService.class);
+            mIGithubService = getApi().create(GithubService.class);
         }
 
         return mIGithubService;

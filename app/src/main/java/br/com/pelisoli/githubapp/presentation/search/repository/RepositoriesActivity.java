@@ -61,12 +61,13 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
     }
 
     @Override
-    public void showProgress(boolean showProgress) {
-        if(showProgress){
+    public void showProgress() {
             mProgress.setVisibility(View.VISIBLE);
-        }else{
-            mProgress.setVisibility(View.GONE);
-        }
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgress.setVisibility(View.GONE);
     }
 
     @Override

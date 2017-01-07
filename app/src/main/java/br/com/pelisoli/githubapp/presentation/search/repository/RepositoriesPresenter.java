@@ -1,9 +1,6 @@
 package br.com.pelisoli.githubapp.presentation.search.repository;
 
-import android.util.Log;
-
-import br.com.pelisoli.githubapp.BuildConfig;
-import br.com.pelisoli.githubapp.domain.api.IGithubService;
+import br.com.pelisoli.githubapp.domain.api.GithubService;
 import br.com.pelisoli.githubapp.presentation.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -14,39 +11,40 @@ import rx.schedulers.Schedulers;
 public class RepositoriesPresenter extends BasePresenter<RepositoriesContract.View>
         implements RepositoriesContract.Presenter {
 
-    IGithubService mGithubService;
+    GithubService mGithubService;
 
-    public RepositoriesPresenter(IGithubService githubService) {
+    public RepositoriesPresenter(GithubService githubService) {
         mGithubService = githubService;
     }
 
     @Override
     public void searchRepository(String user) {
-        getView().showProgress(true);
+        if(mGithubService != null) {
+            if (user != null && !user.isEmpty()) {
+                getView().showProgress();
 
-        if (user != null && !user.isEmpty()) {
-            addSubscription(mGithubService
-                    .getUserRepos(user)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            repositories -> {
-                                getView().showRepositoryList(repositories);
-                            },
+                addSubscription(mGithubService
+                        .getUserRepos(user)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                repositories -> {
+                                    getView().hideProgress();
+                                    getView().showRepositoryList(repositories);
+                                },
 
-                            throwable -> {
-                                Log.e(BuildConfig.LOG_TAG, "searchUser error: " + throwable.getMessage());
-                                getView().showError();
-                            },
-
-                            () -> Log.i(BuildConfig.LOG_TAG, "searchUser: " + "onCompleted")
-
-                    )
-            );
+                                throwable -> {
+//                                Log.e(BuildConfig.LOG_TAG, "searchUser error: " + throwable.getMessage());
+                                    getView().hideProgress();
+                                    getView().showError();
+                                }));
+            } else {
+                getView().showError();
+            }
         }else{
             getView().showError();
         }
 
-        getView().showProgress(false);
+
     }
 }
