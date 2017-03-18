@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
+import br.com.pelisoli.githubapp.GithubApplication;
 import br.com.pelisoli.githubapp.R;
 import br.com.pelisoli.githubapp.domain.api.GithubApi;
 import br.com.pelisoli.githubapp.domain.model.User;
@@ -44,24 +45,29 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
     @BindView(R.id.user_name)
     TextView mUserName;
 
+    private GithubApplication application;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_activity);
         ButterKnife.bind(this);
 
-        mPresenter = new UserPresenter(GithubApi.getRetrofit());
+        application = (GithubApplication) getApplication();
+
+        mPresenter = new UserPresenter(GithubApi.getRetrofit(), application.getLog());
         mPresenter.attachView(this);
 
     }
 
     @Override
-    public void showProgress(boolean showProgress) {
-        if (showProgress) {
-            progress.setVisibility(View.VISIBLE);
-        }else {
-            progress.setVisibility(View.GONE);
-        }
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
 
     @Override
     public void showUser(User user) {
-        showProgress(false);
+        hideProgress();
         showCard(true);
 
         mUserName.setText(user.getName());

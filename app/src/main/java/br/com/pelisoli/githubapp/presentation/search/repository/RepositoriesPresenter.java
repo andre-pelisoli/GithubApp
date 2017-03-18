@@ -1,6 +1,7 @@
 package br.com.pelisoli.githubapp.presentation.search.repository;
 
 import br.com.pelisoli.githubapp.domain.api.GithubService;
+import br.com.pelisoli.githubapp.domain.log.Log;
 import br.com.pelisoli.githubapp.presentation.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -11,40 +12,42 @@ import rx.schedulers.Schedulers;
 public class RepositoriesPresenter extends BasePresenter<RepositoriesContract.View>
         implements RepositoriesContract.Presenter {
 
-    GithubService mGithubService;
+    private GithubService githubService;
 
-    public RepositoriesPresenter(GithubService githubService) {
-        mGithubService = githubService;
+    private Log log;
+
+    public RepositoriesPresenter(GithubService githubService, Log log) {
+        this.githubService = githubService;
+        this.log = log;
     }
 
     @Override
     public void searchRepository(String user) {
-        if(mGithubService != null) {
+        if(githubService != null) {
             if (user != null && !user.isEmpty()) {
                 getView().showProgress();
 
-                addSubscription(mGithubService
+                addSubscription(githubService
                         .getUserRepos(user)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 repositories -> {
-                                    getView().hideProgress();
                                     getView().showRepositoryList(repositories);
                                 },
 
                                 throwable -> {
-//                                Log.e(BuildConfig.LOG_TAG, "searchUser error: " + throwable.getMessage());
+                                    log.logError("searchRepository : " + throwable.getMessage());
                                     getView().hideProgress();
                                     getView().showError();
                                 }));
             } else {
+                log.logError("searchRepository : " + "User is empty or null");
                 getView().showError();
             }
         }else{
+            log.logError("searchRepository : " + "API object is null");
             getView().showError();
         }
-
-
     }
 }

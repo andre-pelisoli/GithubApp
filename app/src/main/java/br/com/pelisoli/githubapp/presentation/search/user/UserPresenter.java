@@ -1,9 +1,7 @@
 package br.com.pelisoli.githubapp.presentation.search.user;
 
-import android.util.Log;
-
-import br.com.pelisoli.githubapp.BuildConfig;
 import br.com.pelisoli.githubapp.domain.api.GithubService;
+import br.com.pelisoli.githubapp.domain.log.Log;
 import br.com.pelisoli.githubapp.presentation.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -14,36 +12,43 @@ import rx.schedulers.Schedulers;
 public class UserPresenter extends BasePresenter<UserContract.View>
         implements UserContract.Presenter  {
 
-    GithubService mGithubService;
+    private GithubService githubService;
 
-    public UserPresenter(GithubService githubService) {
-        mGithubService = githubService;
+    private Log log;
+
+    public UserPresenter(GithubService githubService, Log log) {
+        this.githubService = githubService;
+        this.log = log;
     }
 
     @Override
     public void searchUser(String userName) {
-        getView().showProgress(true);
+        getView().showProgress();
+        if(githubService != null) {
+            if (userName != null && !userName.isEmpty()) {
+                addSubscription(githubService
+                        .getUser(userName)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                user -> {
+                                    getView().hideProgress();
+                                    getView().showUser(user);
+                                },
 
-        if (userName != null && !userName.isEmpty()) {
-            addSubscription(mGithubService
-                    .getUser(userName)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            user -> getView().showUser(user),
-
-                            throwable -> {
-                                Log.e(BuildConfig.LOG_TAG, "searchUser: " + throwable.getMessage());
-                                getView().showError();
-                            },
-
-                            () -> Log.i(BuildConfig.LOG_TAG, "searchUser: " + "Completed" )
-                    ));
+                                throwable -> {
+                                    log.logError("searchUser: " + throwable.getMessage());
+                                    getView().hideProgress();
+                                    getView().showError();
+                                }));
+            } else {
+                log.logError("searchUser: " + "User is empty or null");
+                getView().showEmptyFieldDialog();
+            }
         }else{
-            getView().showEmptyFieldDialog();
+            log.logError("searchUser: " + "API object is null");
+            getView().showError();
         }
-
-        getView().showProgress(false);
     }
 
     @Override

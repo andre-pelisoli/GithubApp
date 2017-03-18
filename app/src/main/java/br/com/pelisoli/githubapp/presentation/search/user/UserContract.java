@@ -10,7 +10,9 @@ import br.com.pelisoli.githubapp.presentation.base.MvpView;
 public interface UserContract {
 
     interface View extends MvpView {
-        void showProgress(boolean showProgress);
+        void showProgress();
+
+        void hideProgress();
 
         void showCard(boolean showCard);
 

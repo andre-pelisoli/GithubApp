@@ -1,4 +1,4 @@
-package br.com.pelisoli.githubapp;
+package br.com.pelisoli.githubapp.presentation.util;
 
 /**
  * Created by pelisoli on 07/01/17.

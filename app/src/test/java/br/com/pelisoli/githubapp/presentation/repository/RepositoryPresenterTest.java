@@ -1,4 +1,4 @@
-package br.com.pelisoli.githubapp.repository;
+package br.com.pelisoli.githubapp.presentation.repository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,12 +6,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import br.com.pelisoli.githubapp.RxSchedulersOverrideRule;
+import br.com.pelisoli.githubapp.presentation.util.RxSchedulersOverrideRule;
 import br.com.pelisoli.githubapp.domain.api.GithubService;
+import br.com.pelisoli.githubapp.domain.log.Log;
 import br.com.pelisoli.githubapp.domain.model.Repository;
 import br.com.pelisoli.githubapp.presentation.search.repository.RepositoriesContract;
 import br.com.pelisoli.githubapp.presentation.search.repository.RepositoriesPresenter;
@@ -27,15 +28,18 @@ import static org.mockito.Mockito.when;
 public class RepositoryPresenterTest {
 
     @Mock
-    GithubService api;
+    private GithubService api;
 
     @Mock
-    RepositoriesContract.View view;
+    private RepositoriesContract.View view;
 
     @Mock
-    List<Repository> repositories;
+    private List<Repository> repositories;
 
-    String userName = "User";
+    @Mock
+    private Log log;
+
+    private String userName = "User";
 
     @Rule
     public final RxSchedulersOverrideRule mOverrideSchedulersRule = new RxSchedulersOverrideRule();
@@ -44,7 +48,7 @@ public class RepositoryPresenterTest {
 
     @Before
     public void setUp(){
-        presenter = new RepositoriesPresenter(api);
+        presenter = new RepositoriesPresenter(api, log);
         presenter.attachView(view);
     }
 
@@ -54,7 +58,9 @@ public class RepositoryPresenterTest {
 
         presenter.searchRepository(userName);
 
-        verify(presenter.getView()).showRepositoryList(repositories);
+        verify(view).showProgress();
+        verify(view).hideProgress();
+        verify(view).showRepositoryList(repositories);
     }
 
     @Test
@@ -63,9 +69,9 @@ public class RepositoryPresenterTest {
 
         presenter.searchRepository(userName);
 
-        verify(presenter.getView()).showProgress();
-        verify(presenter.getView()).hideProgress();
-        verify(presenter.getView()).showError();
+        verify(view).showProgress();
+        verify(view).hideProgress();
+        verify(view).showError();
     }
 
     @Test
@@ -73,7 +79,7 @@ public class RepositoryPresenterTest {
         userName = "";
         presenter.searchRepository(userName);
 
-        verify(presenter.getView()).showError();
+        verify(view).showError();
     }
 
     @Test
@@ -81,17 +87,17 @@ public class RepositoryPresenterTest {
         userName = null;
         presenter.searchRepository(userName);
 
-        verify(presenter.getView()).showError();
+        verify(view).showError();
     }
 
     @Test
     public void nullApiInstance(){
-        presenter = new RepositoriesPresenter(null);
+        presenter = new RepositoriesPresenter(null, log);
         presenter.attachView(view);
 
         presenter.searchRepository(userName);
 
-        verify(presenter.getView()).showError();
+        verify(view).showError();
     }
 
     @After

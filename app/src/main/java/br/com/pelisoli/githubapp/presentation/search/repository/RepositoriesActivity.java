@@ -12,6 +12,7 @@ import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.util.List;
 
+import br.com.pelisoli.githubapp.GithubApplication;
 import br.com.pelisoli.githubapp.R;
 import br.com.pelisoli.githubapp.domain.api.GithubApi;
 import br.com.pelisoli.githubapp.domain.model.Repository;
@@ -29,13 +30,15 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
     @BindView(R.id.rep_progress_view)
     CircularProgressView mProgress;
 
-    RepositoriesAdapter mRepositoriesAdapter;
+    private RepositoriesAdapter mRepositoriesAdapter;
 
-    List<Repository> mRepositories = null;
+    private List<Repository> mRepositories = null;
 
-    String userName = "";
+    private String userName = "";
 
-    RepositoriesContract.Presenter mPresenter;
+    private RepositoriesContract.Presenter mPresenter;
+
+    private GithubApplication application;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
         setContentView(R.layout.repositories_activity);
 
         ButterKnife.bind(this);
+
+        application =  (GithubApplication)getApplication();
 
         Bundle bundle = getIntent().getExtras();
 
@@ -54,7 +59,7 @@ public class RepositoriesActivity extends AppCompatActivity implements Repositor
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mRepositoriesAdapter);
 
-        mPresenter = new RepositoriesPresenter(GithubApi.getRetrofit());
+        mPresenter = new RepositoriesPresenter(GithubApi.getRetrofit(), application.getLog());
         mPresenter.attachView(this);
         mPresenter.searchRepository(userName);
 
